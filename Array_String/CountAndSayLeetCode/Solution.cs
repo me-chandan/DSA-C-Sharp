@@ -41,7 +41,6 @@ namespace CountAndSayLeetCode
 
             for (int i = 0; i < str.Length-1; i++)
             {
-                char.IsLetterOrDigit
                 if (str[i] == str[i + 1])
                 {
                     count++;

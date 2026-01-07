@@ -60,5 +60,54 @@
 
             return true;
         }
+
+        public static bool CanFinish2(int numCourses, int[][] prerequisites)
+        {
+            List<int>[] graph = new List<int>[numCourses];
+
+            for (int i = 0; i < numCourses; i++)
+            {
+                graph[i] = new List<int>();
+            }
+
+            int[] indegree = new int[numCourses];
+
+            foreach (var p in prerequisites)
+            {
+                int course = p[0];
+                int prereq = p[1];
+                graph[prereq].Add(course);
+                indegree[course]++;
+            }
+
+            Queue<int> queue = new Queue<int>();
+            for (int i = 0; i < numCourses; i++)
+            {
+                if (indegree[i] == 0)
+                {
+                    queue.Enqueue(i);
+                }
+            }
+
+            int completed = 0;
+
+            while (queue.Count > 0)
+            {
+                var course = queue.Dequeue();
+                completed++;
+
+                foreach (var item in graph[course])
+                {
+                    indegree[item]--;
+
+                    if (indegree[item] == 0)
+                    {
+                        queue.Enqueue(item);
+                    }
+                }
+            }
+
+            return completed == numCourses;
+        }
     }
 }
