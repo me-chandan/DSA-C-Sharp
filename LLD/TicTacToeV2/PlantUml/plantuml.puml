@@ -1,0 +1,98 @@
+@startuml
+' Class diagram for TicTacToeV2 - generated from project files list
+
+skinparam classAttributeIconSize 0
+
+interface IBoardGames {
+  + PlayGame() : void
+}
+
+class TicTacToeGame {
+  - Board board
+  - Player_X : Player
+  - Player_O : Player
+  - CurrentPlayer : Player
+  - GameContext context
+  + PlayGame() : void
+}
+IBoardGames <|.. TicTacToeGame
+
+class Board {
+  - Symbol[][] grid
+  - row : int
+  - col : int
+  + IsValidMove(Position) : bool
+  + PlaceSymbol(Position, Symbol) : void
+  + CheckGameState(GameContext, Player) : void
+  + Display() : void
+}
+
+class Player {
+  - name : string
+  - symbol : Symbol
+  - strategy : IPlayerStrategy
+  + GetPlayerStrategy() : IPlayerStrategy
+}
+
+enum PlayerType {
+  Human
+  AI
+}
+
+interface IPlayerStrategy {
+  + GetNextMove(Board, Player) : Position
+}
+
+class HumanStrategy {
+  + GetNextMove(Board, Player) : Position 
+}
+class AIStrategy {
+  + GetNextMove(Board, Player) : Position
+}
+IPlayerStrategy <|.. HumanStrategy
+IPlayerStrategy <|.. AIStrategy
+
+class Position {
+  - int Row
+  - int Col
+  + Position(int, int)
+}
+
+enum Symbol {
+  X O
+}
+
+class GameContext {
+  - IGameState currentState
+  + SetState(IGameState) : void
+  + GetCurrentState() : IGameState
+  + IsGameOver() : bool
+  + Next(Player, hasWon : bool)
+}
+
+interface IGameState {
+  + Next(GameContext, Player, hasWon) : void
+  + IsGameOver() : bool
+}
+
+class X_TurnState
+class O_TurnState
+class X_WonState
+class O_WonState
+class DrawState
+IGameState <|.. X_TurnState
+IGameState <|.. O_TurnState
+IGameState <|.. X_WonState
+IGameState <|.. O_WonState
+IGameState <|.. DrawState
+
+' Relationships
+TicTacToeGame *-- Board
+TicTacToeGame o-- Player : "2"
+TicTacToeGame --> GameContext
+Player --> IPlayerStrategy
+GameContext --> IGameState
+Board ..> Position
+Board ..> Symbol
+
+@enduml
