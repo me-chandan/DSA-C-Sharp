@@ -13,6 +13,9 @@
             _strategy = strategy;
         }
 
-        public IPlayerStrategy GetPlayerStrategy() {  return _strategy; }
+        public Position GetNextMove(Board board)
+        {
+            return _strategy.GetNextMove(board, this);
+        }
     }
 }

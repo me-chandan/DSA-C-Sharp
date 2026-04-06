@@ -22,7 +22,7 @@
             do
             {
                 _board.Display();
-                Position move = _currentPlayer.GetPlayerStrategy().GetNextMove(_board, _currentPlayer);
+                Position move = _currentPlayer.GetNextMove(_board);
                 _board.PlaceSymbol(move, _currentPlayer.Symbol);
 
                 //check game state for current player
